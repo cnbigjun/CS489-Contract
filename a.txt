@@ -1,0 +1,10 @@
+The system should search for contacts by first name, last name, company, or job title.
+The system should add new contacts, including their first name, last name, company, job title, phone numbers, and email addresses.
+The system need to update existing contact information, including their first name, last name, company, job title, phone numbers, and email addresses.
+The system need to delete existing contacts.
+The system need to merge duplicate contacts, consolidating the information from both contacts into a single contact.
+The system need to view the list of all contacts.
+The system need to filter the list of contacts by first name, last name, company, or job title.
+The system need to sort the list of contacts by first name, last name, company, or job title.
+The system need to export the list of contacts to a file.
+The system shall provide a user-friendly interface for performing all the above-mentioned functionalities.
