@@ -6,6 +6,8 @@ import edu.miu.model.Contact;
 import edu.miu.model.EmailAddress;
 import edu.miu.model.PhoneNumber;
 
+
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -33,10 +35,58 @@ public class ContactApp {
 
         contacts.sort(Comparator.comparing(Contact::getLastName));
 
-        // Print contacts in JSON format
+        // Method1 by GSON
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         for (Contact contact : contacts) {
             System.out.println(gson.toJson(contact));
         }
+
+        // Method2 by Java standard
+        printContactsInJSON(contacts);
+
     }
+
+    private static void printContactsInJSON(List<Contact> contacts) {
+        System.out.println("Printed in JSON format");
+        System.out.println("[");
+        for (Contact contact : contacts) {
+            String line = String.format("\t{\"firstName\": \"%s\", \"lastName\": \"%s\", \"company\": \"%s\", \"jobTitle\": \"%s\", \"phoneNumbers\": %s, \"emailAddresses\": %s},",
+                    contact.getFirstName(),
+                    contact.getLastName(),
+                    contact.getCompany(),
+                    contact.getJobTitle(),
+                    getPhoneNumbersJSON(contact.getPhoneNumbers()),
+                    getEmailAddressesJSON(contact.getEmailAddresses()));
+            System.out.println(line);
+        }
+        System.out.println("]");
+    }
+
+    private static String getPhoneNumbersJSON(List<PhoneNumber> phoneNumbers) {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < phoneNumbers.size(); i++) {
+            PhoneNumber phoneNumber = phoneNumbers.get(i);
+            sb.append(String.format("{\"number\": \"%s\", \"label\": \"%s\"}%s",
+                    phoneNumber.getNumber(),
+                    phoneNumber.getLabel(),
+                    i < phoneNumbers.size() - 1 ? "," : ""));
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    private static String getEmailAddressesJSON(List<EmailAddress> emailAddresses) {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < emailAddresses.size(); i++) {
+            EmailAddress emailAddress = emailAddresses.get(i);
+            sb.append(String.format("{\"address\": \"%s\", \"label\": \"%s\"}%s",
+                    emailAddress.getAddress(),
+                    emailAddress.getLabel(),
+                    i < emailAddresses.size() - 1 ? "," : ""));
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+
 }
